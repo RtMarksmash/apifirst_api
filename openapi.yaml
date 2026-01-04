@@ -50,6 +50,34 @@ components:
                 comment:
                   type: string
                   maxLength: 200
+    ProductCreate:
+      type: object
+      required:
+        - name
+        - price
+        - category
+      properties:
+        name: 
+          type: string
+          minLength: 2
+          maxLength: 40
+        description:
+          type: string
+          maxLength: 500
+        price: 
+          type: number
+          minimum: 0
+          multipleOf: 0.01
+        category:
+          type: array
+          enum: [electronics , books , clothes , food]
+        tags: 
+          type: array
+          items: 
+            type: string
+          minItems: 1
+        inStock:
+          type: boolean
 paths:
   /hello:
     get:
@@ -187,7 +215,60 @@ paths:
                 properties:
                   message:
                     type: string 
-        
+  /productos/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Obtener un producto por ID
+      responses:
+        '200':
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    put:
+      summary: Actualizar un producto por ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreate'
+      responses:
+        '200':
+          description: Producto actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    delete:
+      summary: Eliminar un producto por ID
+      responses:
+        '204':
+          description: Producto eliminado
 
 
             
