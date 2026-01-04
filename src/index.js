@@ -16,8 +16,13 @@ app.use(
     OpenApiValidator.middleware({
         apiSpec: './api-spec.yaml',
         ignorePaths: /docs/,
+        coerceTypes: true
     }),
 );
+
+// simple in-memory store
+let users = [];
+let nextId = 1;
 
 app.get('/hello', (req, res) => {
     res.json({ message: "hello world" });
@@ -27,18 +32,62 @@ app.post('/users', (req, res) => {
     // Desestructuramos los datos del cuerpo de la petición
     const { name, age, email } = req.body;
 
-    // No necesitamos validar los datos, OpenAPI ya lo hizo por nosotros
-
-    // Creamos el nuevo usuario
+    // Creamos el nuevo usuario (id numérico en almacenamiento, pero respondemos id como string según openapi.yaml)
+    const id = nextId++;
     const newUser = {
-        id: Date.now().toString(),
+        id, // número para búsquedas por /users/{id}
         name,
         age,
         email
     };
 
-    // Enviamos la respuesta
-    res.status(201).json(newUser);
+    users.push(newUser);
+
+    // Enviamos la respuesta (id como string para cumplir el schema del POST /users)
+    res.status(201).json({
+        id: String(id),
+        name,
+        age,
+        email
+    });
+});
+
+
+
+app.get('/users/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const user = users.find(u => u.id === id);
+
+    if (!user) {
+        return res.status(404).json({ message: 'usuario no encontrado' });
+    }
+
+    res.json({
+        id: user.id,
+        name: user.name
+    });
+});
+
+app.post('/users/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const user = users.find(u => u.id === id);
+
+    if (!user) {
+        return res.status(404).json({ message: 'usuario no encontrado' });
+    }
+
+    const { name, age, email } = req.body;
+
+    user.name = name;
+    user.age = age;
+    user.email = email;
+
+    res.json({
+        id: user.id,
+        name: user.name,
+        age: user.age,
+        email: user.email
+    });
 });
 
 
