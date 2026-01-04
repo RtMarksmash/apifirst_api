@@ -3,7 +3,10 @@ info:
   version: "1.0"
   title: AppFirst
 servers:
-  - url: http://localhost:3000
+  - url: /v1
+    description: Versión uno de la API
+  - url: /v2
+    description: Versión dos de la API con mejoras incorporadas
 components:
   schemas:
     helloResponse:

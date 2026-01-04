@@ -94,8 +94,14 @@ function validateProductCreate(body) {
 }
 
 
-app.get('/hello', (req, res) => {
-    res.json({ message: "hello world" });
+// Versión 1
+app.get('/v1', (req, res) => {
+    res.send({ message: "Hello" });
+});
+
+// Versión 2 con timestamp
+app.get('/v2', (req, res) => {
+    res.send({ message: "Hello", timestamp: new Date().toISOString() });
 });
 
 app.post('/users', (req, res) => {
@@ -209,4 +215,6 @@ app.use((err, req, res, next) => {
 
 app.listen(port, () => {
     console.log(`Servidor funcionando en puerto ${port}`);
+    console.log(`Servidor funcionando en puerto ${port}/v1`);
+    console.log(`Servidor funcionando en puerto ${port}/v2`);
 });
