@@ -1,7 +1,27 @@
 openapi: 3.1.1
 info:
   version: "1.0"
-  title: AppFirst
+  title: Fake Store API
+  description: Una API para gestionar usuarios y productos en una tienda ficticia.
+  termsOfService: http://example.com/terms/
+  contact:
+    name: jorge mario mora molina
+    url: http://www.example.com/support
+    email: jorgemariomoramolina@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+externalDocs:
+    description: Documentación adicional
+    url: http://example.com/docs
+tags:
+  - name: Usuarios
+    description: Operaciones relacionadas con la gestión de usuarios  
+  - name: Productos
+    description: Operaciones relacionadas con la gestión de productos
+    externalDocs:
+      url: http://example.com/product-docs
+      description: Documentación de productos
 servers:
   - url: /v1
     description: Versión uno de la API
@@ -11,6 +31,8 @@ components:
   schemas:
     helloResponse:
       type: object
+      example:
+        message: "Hola desde la Fake Store API"
     Product:
       type: object
       required:
@@ -56,6 +78,18 @@ components:
                 comment:
                   type: string
                   maxLength: 200
+      example:
+        name: "Auriculares inalámbricos ZX-200"
+        description: "Auriculares Bluetooth con cancelación de ruido activa, 30 horas de batería y carga rápida. Ideal para commuting y trabajo remoto."
+        price: 79.99
+        category: ["electronics"]
+        tags: ["audio", "wireless", "popular"]
+        inStock: true
+        ratings:
+          - score: 5
+            comment: "Excelente calidad de sonido y muy cómodos."
+          - score: 4
+            comment: "Buena relación calidad-precio, la batería dura mucho."
     ProductCreate:
       type: object
       required:
@@ -84,6 +118,13 @@ components:
           minItems: 1
         inStock:
           type: boolean
+      example:
+        name: "Camiseta algodón premium"
+        description: "Camiseta 100% algodón, disponible en varios colores. Corte regular, tacto suave."
+        price: 19.9
+        category: ["clothes"]
+        tags: ["ropa", "algodón", "bestseller"]
+        inStock: true
 paths:
   /hello:
     get:
@@ -95,9 +136,13 @@ paths:
             application/json:
               schema:
                 type: object
+              example:
+                message: "Hola desde la API de Fake Store"
 
   /users:
     post:
+      tags:
+      - Usuarios
       summary: Crear un nuevo usuario
       requestBody:
         required: true
@@ -119,6 +164,10 @@ paths:
                 email:
                   type: string
                   format: email
+            example:
+              name: "María López"
+              age: 30
+              email: "maria.lopez@example.com"
       responses:
         201:
           description: Usuario creado correctamente
@@ -135,8 +184,15 @@ paths:
                     type: integer
                   email:
                     type: string
+              example:
+                id: "u_12345"
+                name: "María López"
+                age: 30
+                email: "maria.lopez@example.com"
   /users/{id}:
     get:
+      tags:
+      - Usuarios
       description: "Obtener un usuario por el ID"
       parameters:
         - name: id
@@ -144,6 +200,7 @@ paths:
           required: true
           schema:
             type: integer
+          example: 42
       responses:
         '200':
           description: usuario encontrado 
@@ -156,6 +213,9 @@ paths:
                     type: integer
                   name: 
                     type: string
+              example:
+                id: 42
+                name: "Carlos Pérez"
         '404':
             description: usuario no encontrado 
             content:
@@ -164,8 +224,12 @@ paths:
                   type: object
                   properties:
                     message:
-                      type: string  
+                      type: string
+                example:
+                  message: "Usuario con id 42 no encontrado"  
     post:
+      tags:
+      - Usuarios
       summary:  actualizar un usuario por ID
       parameters:
         - in: path
@@ -193,6 +257,10 @@ paths:
                 age:
                   type: integer
                   minimum: 18
+            example:
+              name: "Carlos Pérez"
+              age: 35
+              email: "carlos.perez@example.com"
 
           
 
@@ -212,6 +280,11 @@ paths:
                     type: integer
                   email:
                     type: string
+              example:
+                id: 42
+                name: "Carlos Pérez"
+                age: 35
+                email: "carlos.perez@example.com"
         '404':
           description: usuario no encontrado
           content:
@@ -220,7 +293,9 @@ paths:
                 type: object
                 properties:
                   message:
-                    type: string 
+                    type: string
+              example:
+                message: "Usuario con id 42 no encontrado"
   /productos/{id}:
     parameters:
       - name: id
@@ -228,7 +303,10 @@ paths:
         required: true
         schema:
           type: string
+        example: "prod-1001"
     get:
+      tags:
+      - Productos
       summary: Obtener un producto por ID
       responses:
         '200':
@@ -237,6 +315,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
+              example:
+                name: "Auriculares inalámbricos ZX-200"
+                description: "Auriculares Bluetooth con cancelación de ruido activa, 30 horas de batería y carga rápida."
+                price: 79.99
+                category: ["electronics"]
+                tags: ["audio", "wireless", "popular"]
+                inStock: true
+                ratings:
+                  - score: 5
+                    comment: "Muy buena calidad."
         '404':
           description: Producto no encontrado
           content:
@@ -246,7 +334,11 @@ paths:
                 properties:
                   message:
                     type: string
+              example:
+                message: "Producto con id 'prod-1001' no encontrado"
     put:
+      tags:
+      - Productos
       summary: Actualizar un producto por ID
       requestBody:
         required: true
@@ -254,6 +346,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ProductCreate'
+            example:
+              name: "Auriculares inalámbricos ZX-200"
+              description: "Auriculares Bluetooth con cancelación de ruido y batería mejorada."
+              price: 74.99
+              category: ["electronics"]
+              tags: ["audio", "rebaja"]
+              inStock: true
       responses:
         '200':
           description: Producto actualizado
@@ -261,6 +360,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
+              example:
+                name: "Auriculares inalámbricos ZX-200"
+                description: "Auriculares Bluetooth con cancelación de ruido activa, 30 horas de batería y carga rápida."
+                price: 74.99
+                category: ["electronics"]
+                tags: ["audio", "rebaja"]
+                inStock: true
+                ratings:
+                  - score: 5
+                    comment: "Mejoraron la versión anterior, excelente batería."
         '404':
           description: Producto no encontrado
           content:
@@ -270,7 +379,11 @@ paths:
                 properties:
                   message:
                     type: string
+              example:
+                message: "Producto con id 'prod-1001' no encontrado"
     delete:
+      tags:
+      - Productos
       summary: Eliminar un producto por ID
       responses:
         '204':
