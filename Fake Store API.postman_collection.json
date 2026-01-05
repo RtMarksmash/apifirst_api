@@ -1,0 +1,752 @@
+{
+	"info": {
+		"_postman_id": "ab8c613e-3dd9-419b-b59f-40581a914404",
+		"name": "Fake Store API",
+		"description": "Una API para gestionar usuarios y productos en una tienda ficticia.\n\nContact Support:\n Name: jorge mario mora molina\n Email: jorgemariomoramolina@gmail.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "51254234",
+		"_collection_link": "https://www.postman.com/jorgemariomoramolina-7642636/api-first/collection/51254234-ab8c613e-3dd9-419b-b59f-40581a914404?action=share&source=collection_link&creator=51254234"
+	},
+	"item": [
+		{
+			"name": "hello",
+			"item": [
+				{
+					"name": "hello world",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/hello",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hello"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Respuesta completa",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/hello",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"hello"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Hola desde la API de Fake Store\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "Obtener un usuario por el ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "42"
+										}
+									]
+								},
+								"description": "Obtener un usuario por el ID"
+							},
+							"response": [
+								{
+									"name": "usuario encontrado",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "42"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 42,\n  \"name\": \"Carlos Pérez\"\n}"
+								},
+								{
+									"name": "usuario no encontrado",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "42"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Usuario con id 42 no encontrado\"\n}"
+								}
+							]
+						},
+						{
+							"name": "actualizar un usuario por ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Carlos Pérez\",\n  \"age\": 35,\n  \"email\": \"carlos.perez@example.com\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "4600"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "usuario actualizado",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Carlos Pérez\",\n  \"age\": 35,\n  \"email\": \"carlos.perez@example.com\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "4600"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 42,\n  \"name\": \"Carlos Pérez\",\n  \"age\": 35,\n  \"email\": \"carlos.perez@example.com\"\n}"
+								},
+								{
+									"name": "usuario no encontrado",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Carlos Pérez\",\n  \"age\": 35,\n  \"email\": \"carlos.perez@example.com\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "4600"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Usuario con id 42 no encontrado\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Crear un nuevo usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"María López\",\n  \"age\": 30,\n  \"email\": \"maria.lopez@example.com\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Usuario creado correctamente",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"María López\",\n  \"age\": 30,\n  \"email\": \"maria.lopez@example.com\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"u_12345\",\n  \"name\": \"María López\",\n  \"age\": 30,\n  \"email\": \"maria.lopez@example.com\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "productos",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "Obtener un producto por ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/productos/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"productos",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "prod-1001"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Producto encontrado",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/productos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"productos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "prod-1001"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"name\": \"Auriculares inalámbricos ZX-200\",\n  \"description\": \"Auriculares Bluetooth con cancelación de ruido activa, 30 horas de batería y carga rápida.\",\n  \"price\": 79.99,\n  \"category\": [\n    \"electronics\"\n  ],\n  \"tags\": [\n    \"audio\",\n    \"wireless\",\n    \"popular\"\n  ],\n  \"inStock\": true,\n  \"ratings\": [\n    {\n      \"score\": 5,\n      \"comment\": \"Muy buena calidad.\"\n    }\n  ]\n}"
+								},
+								{
+									"name": "Producto no encontrado",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/productos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"productos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "prod-1001"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Producto con id 'prod-1001' no encontrado\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Actualizar un producto por ID",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Auriculares inalámbricos ZX-200\",\n  \"description\": \"Auriculares Bluetooth con cancelación de ruido y batería mejorada.\",\n  \"price\": 74.99,\n  \"category\": [\n    \"electronics\"\n  ],\n  \"tags\": [\n    \"audio\",\n    \"rebaja\"\n  ],\n  \"inStock\": true\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/productos/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"productos",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "prod-1001"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Producto actualizado",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Auriculares inalámbricos ZX-200\",\n  \"description\": \"Auriculares Bluetooth con cancelación de ruido y batería mejorada.\",\n  \"price\": 74.99,\n  \"category\": [\n    \"electronics\"\n  ],\n  \"tags\": [\n    \"audio\",\n    \"rebaja\"\n  ],\n  \"inStock\": true\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/productos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"productos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "prod-1001"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"name\": \"Auriculares inalámbricos ZX-200\",\n  \"description\": \"Auriculares Bluetooth con cancelación de ruido activa, 30 horas de batería y carga rápida.\",\n  \"price\": 74.99,\n  \"category\": [\n    \"electronics\"\n  ],\n  \"tags\": [\n    \"audio\",\n    \"rebaja\"\n  ],\n  \"inStock\": true,\n  \"ratings\": [\n    {\n      \"score\": 5,\n      \"comment\": \"Mejoraron la versión anterior, excelente batería.\"\n    }\n  ]\n}"
+								},
+								{
+									"name": "Producto no encontrado",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Auriculares inalámbricos ZX-200\",\n  \"description\": \"Auriculares Bluetooth con cancelación de ruido y batería mejorada.\",\n  \"price\": 74.99,\n  \"category\": [\n    \"electronics\"\n  ],\n  \"tags\": [\n    \"audio\",\n    \"rebaja\"\n  ],\n  \"inStock\": true\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/productos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"productos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "prod-1001"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"Producto con id 'prod-1001' no encontrado\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Eliminar un producto por ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/productos/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"productos",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "prod-1001"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Producto eliminado",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/productos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"productos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "prod-1001"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "/v1"
+		}
+	]
+}

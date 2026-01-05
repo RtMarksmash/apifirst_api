@@ -125,6 +125,12 @@ components:
         category: ["clothes"]
         tags: ["ropa", "algodón", "bestseller"]
         inStock: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Token JWT para autenticación segura
 paths:
   /hello:
     get:
@@ -139,11 +145,102 @@ paths:
               example:
                 message: "Hola desde la API de Fake Store"
 
+  /auth/login:
+    post:
+      summary: Autenticar usuario y emitir JWT
+      tags:
+        - Usuarios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  minLength: 6
+                  format: password
+            example:
+              email: "maria.lopez@example.com"
+              password: "miPassword123"
+      responses:
+        '200':
+          description: Autenticación correcta
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+              example:
+                token: "<jwt-token>"
+        '401':
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: "Credenciales inválidas"
+
+  /users/me:
+    get:
+      summary: Obtener datos del usuario autenticado
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Datos del usuario autenticado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  age:
+                    type: integer
+                  email:
+                    type: string
+              example:
+                id: 1
+                name: "María López"
+                age: 30
+                email: "maria.lopez@example.com"
+        '401':
+          description: No autorizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: "Token inválido o ausente"
+
   /users:
     post:
       tags:
       - Usuarios
       summary: Crear un nuevo usuario
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -164,10 +261,15 @@ paths:
                 email:
                   type: string
                   format: email
+                password:
+                  type: string
+                  minLength: 6
+                  format: password
             example:
               name: "María López"
               age: 30
               email: "maria.lopez@example.com"
+              password: "miPassword123"
       responses:
         201:
           description: Usuario creado correctamente
@@ -231,6 +333,8 @@ paths:
       tags:
       - Usuarios
       summary:  actualizar un usuario por ID
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -296,6 +400,54 @@ paths:
                     type: string
               example:
                 message: "Usuario con id 42 no encontrado"
+  /productos:
+    post:
+      tags:
+      - Productos
+      summary: Crear un producto
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreate'
+            example:
+              name: "Cargador inalámbrico Q-15"
+              description: "Cargador inalámbrico rápido compatible con Qi."
+              price: 24.99
+              category: ["electronics"]
+              tags: ["accesorios", "charger"]
+              inStock: true
+      responses:
+        '201':
+          description: Producto creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              example:
+                id: "prod-1002"
+                name: "Cargador inalámbrico Q-15"
+                description: "Cargador inalámbrico rápido compatible con Qi."
+                price: 24.99
+                category: ["electronics"]
+                tags: ["accesorios", "charger"]
+                inStock: true
+                ratings: []
+        '401':
+          description: No autorizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: "Token inválido o ausente"
+
   /productos/{id}:
     parameters:
       - name: id
@@ -340,6 +492,8 @@ paths:
       tags:
       - Productos
       summary: Actualizar un producto por ID
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -370,6 +524,17 @@ paths:
                 ratings:
                   - score: 5
                     comment: "Mejoraron la versión anterior, excelente batería."
+        '401':
+          description: No autorizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: "Token inválido o ausente"
         '404':
           description: Producto no encontrado
           content:
@@ -385,9 +550,22 @@ paths:
       tags:
       - Productos
       summary: Eliminar un producto por ID
+      security:
+        - bearerAuth: []
       responses:
         '204':
           description: Producto eliminado
+        '401':
+          description: No autorizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: "Token inválido o ausente"
 
 
             
